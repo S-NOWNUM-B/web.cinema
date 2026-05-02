@@ -16,5 +16,6 @@ model Episode {
 	createdAt DateTime @default(now()) @map("created_at") // Дата и время создания серии, с указанием имени поля в базе данных
 	updatedAt DateTime @updatedAt @map("updated_at") // Дата и время последнего обновления серии, с указанием имени поля в базе данных
 
+	@@unique([seasonId, number]) // Уникальное ограничение на комбинацию seasonId и number, чтобы гарантировать уникальность номера серии в рамках одного сезона
 	@@map("episodes") // Указывает имя таблицы в базе данных для модели Episode
 }
