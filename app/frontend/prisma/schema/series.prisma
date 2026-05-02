@@ -1,21 +1,22 @@
+// Схема для сериалов
 model Series {
-	id String @id @default(cuid())
+	id String @id @default(cuid()) // Уникальный идентификатор сериала, генерируемый автоматически
 
-	title String
-	slug String @unique
+	title String // Название сериала
+	slug String @unique // Уникальный слаг для сериала, используемый в URL
 
-	description String
-	year Int?
-	rating String?
+	description String // Описание сериала
+	year Int? // Год выпуска сериала, может быть null
+	rating String? // Рейтинг сериала, может быть null
 
-	imageUrl String @map("image_url")
-	posterUrl String @map("poster_url")
+	imageUrl String @map("image_url") // URL изображения сериала, отображаемый в базе данных как "image_url"
+	posterUrl String @map("poster_url") // URL постера сериала, отображаемый в базе данных как "poster_url"
 
-	genres Genre[]
-	seasons Season[]
+	genres Genre[] // Связь с моделью "Жанр", указывающая, что один сериал может принадлежать нескольким жанрам
+	seasons Season[] // Связь с моделью "Сезон", указывающая, что один сериал может содержать несколько сезонов
 
-	createdAt DateTime @default(now()) @map("created_at")
-	updatedAt DateTime @updatedAt @map("updated_at")
+	createdAt DateTime @default(now()) @map("created_at") // Дата и время создания записи, по умолчанию устанавливается на текущее время, отображаемое в базе данных как "created_at"
+	updatedAt DateTime @updatedAt @map("updated_at") // Дата и время последнего обновления записи, автоматически обновляемое при каждом изменении, отображаемое в базе данных как "updated_at"
 
-	@@map("series")
+	@@map("series") // Указывает, что данная модель будет отображаться в базе данных в виде таблицы "series"
 }
