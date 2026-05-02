@@ -12,7 +12,7 @@ model Series {
 	posterUrl String @map("poster_url")
 
 	genres Genre[]
-	episodes Episode[]
+	seasons Season[]
 
 	createdAt DateTime @default(now()) @map("created_at")
 	updatedAt DateTime @updatedAt @map("updated_at")
