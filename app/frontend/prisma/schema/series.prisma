@@ -7,8 +7,8 @@ model Series {
 
 	description String // Описание сериала
 	year Int? // Год выпуска сериала, может быть null
-	rating String? // Рейтинг сериала, может быть null
 
+	ratingAge String? @map("rating_age") // Возрастной рейтинг сериала, отображаемый в базе данных как "rating_age", может быть null
 	imageUrl String @map("image_url") // URL изображения сериала, отображаемый в базе данных как "image_url"
 	posterUrl String @map("poster_url") // URL постера сериала, отображаемый в базе данных как "poster_url"
 

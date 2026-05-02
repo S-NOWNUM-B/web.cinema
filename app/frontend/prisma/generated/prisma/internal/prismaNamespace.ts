@@ -785,7 +785,7 @@ export const SeriesScalarFieldEnum = {
   slug: 'slug',
   description: 'description',
   year: 'year',
-  rating: 'rating',
+  ratingAge: 'ratingAge',
   imageUrl: 'imageUrl',
   posterUrl: 'posterUrl',
   createdAt: 'createdAt',
