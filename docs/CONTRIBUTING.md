@@ -4,6 +4,10 @@
 
 **Руководство по вкладу и процессу ревью**
 
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](../LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](#pull-requests)
+
 </div>
 
 ---
