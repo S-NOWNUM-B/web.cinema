@@ -117,7 +117,3 @@ pnpm --filter frontend prisma db seed
 
 - Секреты (например `DATABASE_URL`) должны храниться в `.env` и не включаться в репозиторий.
 - Для production используйте защищённое хранилище секретов (Vault, Secrets Manager) и CI/CD переменные.
-
----
-
-Если хотите, могу пройтись по `app/frontend/prisma/schema.prisma` и вставить сюда точный список таблиц/полей и примеры SQL-запросов.

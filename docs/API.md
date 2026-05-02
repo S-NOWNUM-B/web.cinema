@@ -108,7 +108,3 @@
 - Next.js API routes и Server Actions: `app/frontend/src/app/api/` и `app/frontend/src/app/` (server components/actions).
 - Prisma schema: `app/frontend/prisma/schema.prisma`.
 - Сгенерированный клиент: `app/frontend/prisma/generated/prisma/client.ts`.
-
----
-
-Если хотите, я могу пройтись по `app/frontend/src/app/api/` и сгенерировать точный список эндпоинтов и примеры ответов.

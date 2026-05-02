@@ -74,14 +74,3 @@ pnpm --filter frontend build
 # линт
 pnpm --filter frontend lint
 ```
-
----
-
-## CI и ветки
-
-- CI запускает линт, сборку и тесты на каждом PR.
-- Мердж в `main` через релиз-процесс после зелёного CI и одобрения ревью.
-
----
-
-Хочу также предложить: добавить шаблон PR (`.github/PULL_REQUEST_TEMPLATE.md`) и `ISSUE_TEMPLATE` — могу создать их в следующем шаге.
