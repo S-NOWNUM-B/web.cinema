@@ -63,4 +63,4 @@ vite.config.ts.timestamp-*
 
 # AI generated files
 *.qwen
-*.claude
+*.claudeapp/frontend/public/videos/*.mkv
