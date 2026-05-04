@@ -40,4 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+/public/video/demo.mkv
 /src/generated/prisma
+/public/videos
