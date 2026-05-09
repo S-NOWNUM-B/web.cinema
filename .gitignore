@@ -54,6 +54,13 @@ coverage/
 # Cache
 .turbo/
 .cache/
+.next/
+app/frontend/.next/
+out/
+app/frontend/out/
+.vercel/
+app/frontend/.vercel/
+
 
 # TypeScript
 *.tsbuildinfo
@@ -62,6 +69,5 @@ coverage/
 vite.config.ts.timestamp-*
 
 # AI generated files
-*.qwen
-*.claude
-app/frontend/public/videos/*.mkv
+.claude/
+app/frontend/public/videos/
