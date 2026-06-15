@@ -16,45 +16,48 @@
 - [Назначение](#назначение)
 - [Ключевые сущности](#ключевые-сущности)
 - [Модель данных (ERD)](#модель-данных-erd)
-- [Миграции](#миграции)
-- [Управление данными](#управление-данными)
+- [Миграции и команды](#миграции-и-команды)
+- [Seed и управление данными](#seed-и-управление-данными)
 
 ---
 
 ## Назначение
 
-Этот документ описывает структуру базы данных проекта Web Cinema. В качестве основного хранилища используется **PostgreSQL**, а взаимодействие с данными осуществляется через **Prisma ORM**.
+Документ описывает структуру базы данных проекта Web Cinema и процесс управления схемой через Prisma. В проекте основным источником схемы является `app/frontend/prisma/schema.prisma`.
 
 ---
 
 ## Ключевые сущности
 
-<div align="center">
+В проекте используются основные сущности медиаплатформы — фильмы, сериалы, сезоны, эпизоды, жанры и пользователи. Примерный список сущностей:
 
-| **Сущность**       | **Таблица**         | **Назначение**                                   |
-| :----------------- | :------------------ | :----------------------------------------------- |
-| Пользователи       | `User`              | Учетные записи пользователей и профили           |
-| Фильмы             | `Movie`             | Основная информация о фильмах и сериалах         |
-| Жанры              | `Genre`             | Справочник жанров                                |
-| Категории          | `Category`          | Группировка контента (фильмы, сериалы, новинки)  |
-| Актеры             | `Actor`             | Актерский состав и информация о персонах         |
-| Прогресс           | `UserProgress`      | Сохраненный прогресс просмотра для пользователей |
-| Избранное          | `Favorite`          | Список "Хочу посмотреть"                         |
+| Сущность | Описание |
+| :------- | :------- |
+| `User` | Учетные записи и профиль пользователя |
+| `Movie` | Фильм/медиаконтент (метаданные, длительность, ссылки) |
+| `Series` | Сериал с сезоном/эпизодами |
+| `Season` | Сезон сериала |
+| `Episode` | Эпизод сезона |
+| `Genre` | Жанры/теги |
+| `Favorite` | Избранное пользователя |
+| `UserProgress` | Прогресс просмотра |
 
-</div>
+Для точной схемы смотрите `app/frontend/prisma/schema.prisma` и сгенерированный клиент `app/frontend/prisma/generated/prisma/client.ts`.
 
 ---
 
 ## Модель данных (ERD)
+
+Ниже — упрощённая ER-диаграмма, отражающая основные связи:
 
 ```mermaid
 erDiagram
     USER ||--o{ FAVORITE : has
     USER ||--o{ USER_PROGRESS : tracks
     MOVIE ||--o{ USER_PROGRESS : recorded_in
+    SERIES ||--o{ SEASON : has
+    SEASON ||--o{ EPISODE : contains
     MOVIE }|--|{ GENRE : belongs_to
-    MOVIE }|--|{ ACTOR : stars
-    MOVIE }o--|| CATEGORY : categorized_by
 
     USER {
         int id PK
@@ -67,74 +70,50 @@ erDiagram
         int id PK
         string title
         string description
-        string video_url
         string thumbnail_url
         int duration
         datetime release_date
     }
-
-    GENRE {
-        int id PK
-        string name UK
-    }
-
-    USER_PROGRESS {
-        int id PK
-        int user_id FK
-        int movie_id FK
-        int last_position
-        boolean is_completed
-    }
 ```
 
 ---
 
-## Миграции
+## Миграции и команды
 
-Для управления схемой БД используется Prisma Migrate.
+В проекте используется Prisma Migrate. Файлы схемы и миграции находятся в `app/frontend/prisma/`.
 
-<div align="center">
-
-| **Параметр**       | **Значение**                                                     |
-| :----------------- | :--------------------------------------------------------------- |
-| Инструмент         | Prisma Migrate                                                   |
-| Конфигурация       | `app/frontend/prisma/schema.prisma`                              |
-| Папка миграций     | `app/frontend/prisma/migrations/`                                |
-| Формат имени       | `YYYYMMDDHHMMSS_description`                                     |
-
-</div>
-
-### Команды Prisma
+Рекомендуемые команды (в корне репозитория запускайте их для frontend пакета через `pnpm`):
 
 ```bash
 # Генерация клиента Prisma
-pnpm prisma generate
+pnpm --filter frontend prisma generate
 
 # Создание и применение миграции (development)
-pnpm prisma migrate dev --name init_schema
+pnpm --filter frontend prisma migrate dev --name init_schema
 
 # Применение миграций (production)
-pnpm prisma migrate deploy
+pnpm --filter frontend prisma migrate deploy
 
-# Сброс базы данных
-pnpm prisma migrate reset
+# Сброс базы данных (dev only)
+pnpm --filter frontend prisma migrate reset
 
-# Открытие визуального редактора БД
-pnpm prisma studio
+# Открытие Prisma Studio
+pnpm --filter frontend prisma studio
 ```
 
 ---
 
-## Управление данными
+## Seed и управление данными
 
-### Seed данных
+Для заполнения тестовых данных используйте seed-скрипт:
 
-Для наполнения базы данных начальными данными (фильмами, жанрами) используйте команду:
 ```bash
-pnpm prisma db seed
+pnpm --filter frontend prisma db seed
 ```
-Скрипт сидирования находится в `app/frontend/prisma/seed.ts`.
+
+Скрипт сидирования расположен в `app/frontend/prisma/seed.ts`.
 
 ### Безопасность
-- Все чувствительные данные (DATABASE_URL) должны храниться в файле `.env`.
-- Не коммитьте файл `.env` в репозиторий.
+
+- Секреты (например `DATABASE_URL`) должны храниться в `.env` и не включаться в репозиторий.
+- Для production используйте защищённое хранилище секретов (Vault, Secrets Manager) и CI/CD переменные.

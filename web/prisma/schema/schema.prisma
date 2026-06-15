@@ -1,0 +1,10 @@
+// Схема Prisma для генерации клиента и подключения к базе данных PostgreSQL
+generator client {
+  provider = "prisma-client" // Указываем путь для генерации клиента Prisma
+  output = "../generated/prisma" // Путь, куда будет сгенерирован клиент Prisma
+}
+
+// Конфигурация источника данных для подключения к базе данных PostgreSQL
+datasource db {
+  provider = "postgresql" // Указываем, что используем PostgreSQL
+}

@@ -1,0 +1,21 @@
+// Схема Prisma для генерации клиента и подключения к базе данных PostgreSQL
+model Episode {
+	id String @id @default(cuid()) // Уникальный идентификатор серии, генерируемый с помощью функции cuid()
+
+	title String // Название серии
+	number Int // Номер серии в сезоне
+
+	durationSec Int @map("duration_sec") // Длительность серии в секундах, с указанием имени поля в базе данных
+
+	thumbnailUrl String @map("thumbnail_url") // URL миниатюры серии, с указанием имени поля в базе данных
+	videoUrl String @map("video_url") // URL видео серии, с указанием имени поля в базе данных
+
+	seasonId String @map("season_id") // Внешний ключ для связи с сезоном, с указанием имени поля в базе данных
+	season Season @relation(fields: [seasonId], references: [id]) // Связь с моделью Season, указывающая, что серия принадлежит определенному сезону
+
+	createdAt DateTime @default(now()) @map("created_at") // Дата и время создания серии, с указанием имени поля в базе данных
+	updatedAt DateTime @updatedAt @map("updated_at") // Дата и время последнего обновления серии, с указанием имени поля в базе данных
+
+	@@unique([seasonId, number]) // Уникальное ограничение на комбинацию seasonId и number, чтобы гарантировать уникальность номера серии в рамках одного сезона
+	@@map("episodes") // Указывает имя таблицы в базе данных для модели Episode
+}
